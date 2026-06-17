@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes cloudDrift1 {
+  0% { transform: translateX(-200px); }
+  100% { transform: translateX(1400px); }
+}
+@keyframes cloudDrift2 {
+  0% { transform: translateX(-300px); }
+  100% { transform: translateX(1500px); }
+}
+@keyframes cloudDrift3 {
+  0% { transform: translateX(-150px); }
+  100% { transform: translateX(1350px); }
+}
+
+@keyframes waterPulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.25; }
+}
+
+@keyframes waterShimmerMove {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(15px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes birdGlide1 {
+  0% { transform: translate(-100px, 0); }
+  100% { transform: translate(1300px, -30px); }
+}
+@keyframes birdGlide2 {
+  0% { transform: translate(1300px, 0); }
+  100% { transform: translate(-100px, 20px); }
+}
+@keyframes birdGlide3 {
+  0% { transform: translate(-150px, 0); }
+  100% { transform: translate(1350px, -20px); }
+}
+
+.cloud-1 { animation: cloudDrift1 90s linear infinite; }
+.cloud-2 { animation: cloudDrift2 120s linear infinite; }
+.cloud-3 { animation: cloudDrift3 75s linear infinite; }
+.cloud-4 { animation: cloudDrift1 100s linear infinite; animation-delay: -30s; }
+.cloud-5 { animation: cloudDrift2 85s linear infinite; animation-delay: -50s; }
+.cloud-6 { animation: cloudDrift3 110s linear infinite; animation-delay: -20s; }
+
+.water-ripple { animation: waterPulse 4s ease-in-out infinite; }
+.water-ripple:nth-child(odd) { animation-delay: -1s; }
+.water-ripple:nth-child(3n) { animation-delay: -2s; }
+
+.water-shimmer { animation: waterShimmerMove 8s ease-in-out infinite; }
+
+.bird-1 { animation: birdGlide1 45s linear infinite; }
+.bird-2 { animation: birdGlide2 55s linear infinite; animation-delay: -15s; }
+.bird-3 { animation: birdGlide3 40s linear infinite; animation-delay: -25s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud-1, .cloud-2, .cloud-3, .cloud-4, .cloud-5, .cloud-6,
+  .water-ripple, .water-shimmer,
+  .bird-1, .bird-2, .bird-3 {
+    animation: none;
+  }
+}
+
+/* Custom scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Line clamp */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* World reaction glow effects */
+@keyframes glowPulsePositive {
+  0% { filter: brightness(1); }
+  30% { filter: brightness(1.12); }
+  60% { filter: brightness(1.06); }
+  100% { filter: brightness(1); }
+}
+
+@keyframes glowPulseNegative {
+  0% { filter: brightness(1) saturate(1); }
+  30% { filter: brightness(0.92) saturate(0.85); }
+  60% { filter: brightness(0.96) saturate(0.92); }
+  100% { filter: brightness(1) saturate(1); }
+}
+
+.world-glow-positive {
+  animation: glowPulsePositive 4s ease-out forwards;
+}
+
+.world-glow-negative {
+  animation: glowPulseNegative 4s ease-out forwards;
+}
+
+/* Flower bloom */
+.flower-bloom {
+  opacity: 0;
+  animation: flowerAppear 1.5s ease-out forwards;
+}
+
+@keyframes flowerAppear {
+  0% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Impact toast */
+@keyframes toastSlideIn {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes toastFadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+
+.impact-toast-enter {
+  animation: toastSlideIn 0.4s ease-out forwards;
+}
+
+.impact-toast-exit {
+  animation: toastFadeOut 0.5s ease-in forwards;
+}
