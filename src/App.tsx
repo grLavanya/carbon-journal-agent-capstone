@@ -213,26 +213,27 @@ function Landscape({ healthScore, worldEffect, effectType, flowers }: {
   ];
 
   // Health-driven color calculations: score 0-100, default 50
-  const t = healthScore / 100; // 0 to 1, 0.5 is neutral
+  // Map to 0-1 with dramatic visual differences at each tier
+  const t = healthScore / 100;
 
-  // Sky: brighter at high health, greyer at low
-  const skyTop = lerpColor('#8A9AAA', '#A8D8EA', t);       // grey to bright blue
-  const skyMid = lerpColor('#A0AAB5', '#C5E4F0', t);
-  const skyLow = lerpColor('#B0B8C0', '#D6EDF5', t);
-  const skyBot = lerpColor('#C0C5C0', '#E8F4F0', t);
+  // Sky: grey-brown at low, pleasant blue at mid, vivid bright blue at high
+  const skyTop = lerpColor('#6B6B78', '#87CEEB', t);
+  const skyMid = lerpColor('#808088', '#B0E0F0', t);
+  const skyLow = lerpColor('#959598', '#D0ECF5', t);
+  const skyBot = lerpColor('#A8A8A0', '#E8F8F0', t);
 
-  // Tree fullness: 0.7 at score 0, 1.15 at score 100
-  const treeHealthScale = 0.7 + t * 0.45;
+  // Tree fullness: sparse at low (0.55), normal at mid (0.85), lush at high (1.2)
+  const treeHealthScale = 0.55 + t * 0.65;
 
-  // Water: bluer/brighter at high health, muddier at low
-  const waterTop = lerpColor('#7A9A8A', '#8CBFB8', t);
-  const waterMid = lerpColor('#6A8A7A', '#7AB3AB', t);
-  const waterBot = lerpColor('#4A7A6A', '#5A9A8E', t);
+  // Water: murky brown-green at low, moderate teal at mid, crystal blue at high
+  const waterTop = lerpColor('#6A7A60', '#90D0C8', t);
+  const waterMid = lerpColor('#5A6A50', '#70B8AE', t);
+  const waterBot = lerpColor('#4A5840', '#50988A', t);
 
-  // Ground: richer green at high health, more yellow-brown at low
-  const groundTop = lerpColor('#A0B05A', '#8CC06A', t);
-  const groundMid = lerpColor('#90A050', '#7AB356', t);
-  const groundBot = lerpColor('#809045', '#6A9E4F', t);
+  // Ground: dry yellow-brown at low, natural green at mid, rich vibrant green at high
+  const groundTop = lerpColor('#B8A848', '#90CC60', t);
+  const groundMid = lerpColor('#A09838', '#78B850', t);
+  const groundBot = lerpColor('#888830', '#60A840', t);
 
   // Determine which elements get a glow effect
   const skyGlow = worldEffect === 'sky';
@@ -274,13 +275,13 @@ function Landscape({ healthScore, worldEffect, effectType, flowers }: {
           </linearGradient>
 
           <linearGradient id="hillGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={lerpColor('#8AAA6A', '#9ACA7A', t)} />
-            <stop offset="100%" stopColor={lerpColor('#7A9A5A', '#8CC06A', t)} />
+            <stop offset="0%" stopColor={lerpColor('#8A9058', '#A0D878', t)} />
+            <stop offset="100%" stopColor={lerpColor('#7A8048', '#88C060', t)} />
           </linearGradient>
 
           <radialGradient id="sunGlow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0%" stopColor="#FFF5D6" stopOpacity={0.5 + t * 0.3} />
-            <stop offset="50%" stopColor="#FFF5D6" stopOpacity={0.1 + t * 0.1} />
+            <stop offset="0%" stopColor="#FFF5D6" stopOpacity={0.2 + t * 0.6} />
+            <stop offset="50%" stopColor="#FFF5D6" stopOpacity={0.05 + t * 0.2} />
             <stop offset="100%" stopColor="#FFF5D6" stopOpacity="0" />
           </radialGradient>
 
@@ -329,7 +330,7 @@ function Landscape({ healthScore, worldEffect, effectType, flowers }: {
 
         <path
           d="M0,535 Q150,525 300,530 Q500,520 650,528 Q850,522 1000,530 Q1100,525 1200,532 L1200,600 L0,600 Z"
-          fill={lerpColor('#6A9A40', '#7AB356', t)}
+          fill={lerpColor('#908830', '#78B850', t)}
           opacity="0.6"
         />
 

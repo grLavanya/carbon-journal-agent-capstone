@@ -9,11 +9,11 @@ export interface EntryImpact {
 
 const CATEGORY_IMPACT: Record<Category, { score: number; effect: EntryImpact['world_effect'] }> = {
   transport: { score: 4, effect: 'sky' },
+  energy: { score: 3, effect: 'sky' },
   food: { score: 3, effect: 'trees' },
-  lifestyle: { score: 4, effect: 'flowers' },
-  water: { score: 5, effect: 'water' },
-  energy: { score: -2, effect: 'sky' },
   waste: { score: -3, effect: 'trees' },
+  water: { score: 5, effect: 'water' },
+  lifestyle: { score: 4, effect: 'flowers' },
 };
 
 const MOOD_MODIFIER: Partial<Record<Mood, number>> = {
