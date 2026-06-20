@@ -3,6 +3,13 @@ import { analyzeEntry } from './gemini';
 import type { EntryImpact } from './gemini';
 import type { JournalEntry } from './types';
 
+/**
+ * Tracks and persists the user's cumulative "world health" score (0–100),
+ * derived from the impact of their journal entries over time.
+ */
+
+const IMPACT_MULTIPLIER = 0.8;
+
 export interface WorldState {
   score: number;
   effect: EntryImpact['world_effect'] | null;
@@ -44,7 +51,7 @@ export async function initWorldHealth(): Promise<number> {
 }
 
 export function applyImpact(impact: EntryImpact, currentScore: number): WorldState {
-  const delta = impact.impact_score * 0.8;
+  const delta = impact.impact_score * IMPACT_MULTIPLIER;
   let newScore = currentScore + delta;
   newScore = Math.max(0, Math.min(100, Math.round(newScore)));
 
@@ -59,7 +66,7 @@ export function recalculateFromEntries(entries: JournalEntry[]): number {
   let score = 50;
   for (const entry of entries) {
     const impact = analyzeEntry(entry.category, entry.mood);
-    const delta = impact.impact_score * 0.8;
+    const delta = impact.impact_score * IMPACT_MULTIPLIER;
     score += delta;
   }
   return Math.max(0, Math.min(100, Math.round(score)));

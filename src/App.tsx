@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Leaf, Plus, LogOut, BookOpen, X } from 'lucide-react';
-import { AuthProvider, useAuth } from './lib/auth';
+import { AuthProvider } from './lib/auth';
+import { useAuth } from './lib/useAuth';
 import { fetchEntries, createEntry, updateEntry, deleteEntry } from './lib/entries';
 import type { JournalEntry, JournalEntryInsert } from './lib/types';
 import { analyzeEntry } from './lib/gemini';
@@ -142,7 +143,7 @@ function BirdGroup() {
   );
 }
 
-function Flower({ x, y, timestamp }: { x: number; y: number; timestamp: number }) {
+function Flower({ x, y }: { x: number; y: number; timestamp: number }) {
   const petalColors = ['#FFB7C5', '#FF9EB5', '#FFC0CB', '#FFA0B4', '#FFD1DC'];
   const centerColor = '#FFE066';
 

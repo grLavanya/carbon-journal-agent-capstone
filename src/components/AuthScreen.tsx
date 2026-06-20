@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../lib/auth';
+import { useAuth } from '../lib/useAuth';
 import { Leaf } from 'lucide-react';
 
 export default function AuthScreen() {

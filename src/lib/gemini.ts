@@ -1,3 +1,9 @@
+/**
+ * Rule-based impact scoring engine. Maps a journal entry's category and
+ * mood to an impact score, sign (positive/negative/neutral), and whether
+ * the entry qualifies as "exceptional" (triggering a flower bloom).
+ */
+
 import type { Category, Mood } from './types';
 
 export interface EntryImpact {
