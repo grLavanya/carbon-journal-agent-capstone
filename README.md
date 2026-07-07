@@ -29,8 +29,8 @@ Gemini 1.5 Flash (Impact Agent) — reasons about impact using entry + emission 
 | MCP Server | `src/mcp/emissionServer.ts` — JSON-RPC 2.0 tool server, `get_emission_factor` |
 | Agent Skill | `.agents/skills/journal-impact-analysis/SKILL.md` |
 | Security | Supabase Row-Level Security; Gemini API key server-side only (never in client bundle) |
-| Deployability | Deployed on Vercel: https://carbon-journal-agent-capstone.vercel.app/ |
-| Antigravity | Built using Antigravity IDE throughout development |
+| Deployability | Deployed on Vercel — experiencing a post-deploy Supabase connectivity issue at submission time. Code and architecture are fully functional; see demo video. |
+| Antigravity | Built using Antigravity IDE throughout development — see demo video |
 
 ## Tech Stack
 React 18, TypeScript, Vite, Tailwind CSS, Supabase (auth + Postgres + RLS), Gemini 1.5 Flash, Vercel (hosting + serverless functions), Vitest.
