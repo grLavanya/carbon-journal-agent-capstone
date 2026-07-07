@@ -25,9 +25,10 @@ interface EntryDetailProps {
   onClose: () => void;
   onEdit: (entry: JournalEntry) => void;
   onDelete: (id: string) => void;
+  reflection?: string;
 }
 
-export default function EntryDetail({ entry, onClose, onEdit, onDelete }: EntryDetailProps) {
+export default function EntryDetail({ entry, onClose, onEdit, onDelete, reflection }: EntryDetailProps) {
   const cat = CATEGORIES.find((c) => c.value === entry.category);
   const Icon = ICONS[entry.category];
   const moodInfo = entry.mood ? MOODS.find((m) => m.value === entry.mood) : null;
@@ -57,6 +58,14 @@ export default function EntryDetail({ entry, onClose, onEdit, onDelete }: EntryD
         <div className="p-6 space-y-4">
           {entry.content && (
             <p className="font-serif text-[#5C3D2E] leading-relaxed whitespace-pre-wrap">{entry.content}</p>
+          )}
+
+          {reflection && (
+            <div className="p-3.5 bg-sage-50/50 border border-sage-100/60 rounded-xl">
+              <p className="text-sm font-serif text-sage-800 italic leading-relaxed">
+                <span className="font-semibold not-italic text-sage-900">Reflection:</span> {reflection}
+              </p>
+            </div>
           )}
 
           <div className="flex items-center gap-3 flex-wrap">

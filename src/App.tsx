@@ -470,6 +470,23 @@ function JournalApp() {
   const [toasts, setToasts] = useState<ImpactToast[]>([]);
   const toastIdRef = useRef(0);
 
+  const [reflections, setReflections] = useState<Record<string, string>>(() => {
+    try {
+      const saved = localStorage.getItem('folio-reflections');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('folio-reflections', JSON.stringify(reflections));
+    } catch {
+      // Ignore storage errors
+    }
+  }, [reflections]);
+
   const loadEntries = useCallback(async () => {
     try {
       setFetching(true);
@@ -542,10 +559,55 @@ function JournalApp() {
   const handleCreate = async (data: JournalEntryInsert) => {
     const newEntry = await createEntry(data);
 
-    // Rule-based impact analysis
-    const impact = analyzeEntry(data.category, data.mood ?? null);
+    let impact = null;
+    let apiSuccess = false;
+    let reflectionText = '';
+
+    try {
+      const response = await fetch('/api/analyze-entry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          entryText: data.content,
+          category: data.category,
+          mood: data.mood ?? null,
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result && result.usedFallback === false) {
+          impact = {
+            impact_score: result.score,
+            impact_type: result.impactType as 'positive' | 'negative' | 'neutral',
+            is_exceptional: result.worldEffect === 'flowers',
+            world_effect: result.worldEffect as 'sky' | 'trees' | 'water' | 'flowers',
+          };
+          reflectionText = result.reflection;
+          apiSuccess = true;
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch from Gemini API:', err);
+    }
+
+    // Fallback to rule-based impact if API failed or returned fallback
+    if (!apiSuccess || !impact) {
+      impact = analyzeEntry(data.category, data.mood ?? null);
+    }
+
     const worldState = applyImpact(impact, healthScore);
     triggerWorldReaction(worldState, newEntry.id);
+
+    // Save the reflection text if we received one from the API
+    if (apiSuccess && reflectionText) {
+      setReflections((prev) => ({
+        ...prev,
+        [newEntry.id]: reflectionText,
+      }));
+    }
 
     // Show toast notification
     const scoreDelta = worldState.score - healthScore;
@@ -592,11 +654,19 @@ function JournalApp() {
     // Remove any flower that was bloomed specifically by this entry
     setFlowers((prev) => prev.filter((f) => f.entryId !== id));
 
+    // Remove reflection
+    setReflections((prev) => {
+      const copy = { ...prev };
+      delete copy[id];
+      return copy;
+    });
+
     // Safety net: if the journal is now fully empty, clear any
     // remaining flowers too (covers older flowers saved before
     // entryId tracking existed)
     if (updatedEntries.length === 0) {
       setFlowers([]);
+      setReflections({});
     }
   };
 
@@ -722,6 +792,7 @@ function JournalApp() {
                   entry={entry}
                   onEdit={(e) => { if (e) { setEditingEntry(e); setShowForm(true); } }}
                   onDelete={handleDelete}
+                  reflection={reflections[entry.id]}
                 />
               </div>
             ))}
@@ -762,6 +833,7 @@ function JournalApp() {
           onClose={() => setViewingEntry(null)}
           onEdit={(e) => { setViewingEntry(null); setEditingEntry(e); setShowForm(true); }}
           onDelete={handleDelete}
+          reflection={reflections[viewingEntry.id]}
         />
       )}
     </div>

@@ -24,9 +24,10 @@ interface EntryCardProps {
   entry: JournalEntry;
   onEdit: (entry: JournalEntry) => void;
   onDelete: (id: string) => void;
+  reflection?: string;
 }
 
-export default function EntryCard({ entry, onEdit, onDelete }: EntryCardProps) {
+export default function EntryCard({ entry, onEdit, onDelete, reflection }: EntryCardProps) {
   const cat = CATEGORIES.find((c) => c.value === entry.category);
   const Icon = ICONS[entry.category];
   const moodInfo = entry.mood ? MOODS.find((m) => m.value === entry.mood) : null;
@@ -58,6 +59,14 @@ export default function EntryCard({ entry, onEdit, onDelete }: EntryCardProps) {
 
       {entry.content && (
         <p className="mt-3 text-sm font-serif text-[#5C3D2E] leading-relaxed line-clamp-3">{entry.content}</p>
+      )}
+
+      {reflection && (
+        <div className="mt-3 p-3 bg-sage-50/50 border border-sage-100/60 rounded-xl">
+          <p className="text-xs font-serif text-sage-800 italic leading-relaxed">
+            <span className="font-semibold not-italic text-sage-900">Reflection:</span> {reflection}
+          </p>
+        </div>
       )}
 
       <div className="mt-3 flex items-center gap-3 flex-wrap">

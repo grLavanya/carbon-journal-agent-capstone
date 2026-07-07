@@ -1,0 +1,122 @@
+[
+  {
+    "category": "Transport",
+    "activity": "cycling instead of driving 10km",
+    "co2eKg": -2.4,
+    "note": "Cycling has near-zero operational emissions compared to an average passenger car which emits about 240g CO2 per kilometer."
+  },
+  {
+    "category": "Transport",
+    "activity": "taking a public train instead of driving 50km",
+    "co2eKg": -9.0,
+    "note": "Train travel reduces greenhouse gas emissions by around 80% compared to driving a standard single-occupancy car."
+  },
+  {
+    "category": "Transport",
+    "activity": "flying economy class for a 2-hour domestic flight",
+    "co2eKg": 150.0,
+    "note": "A domestic flight emits approximately 150 to 250 kg of CO2e per passenger due to aviation fuel burn."
+  },
+  {
+    "category": "Transport",
+    "activity": "driving an electric vehicle for 100km",
+    "co2eKg": 5.0,
+    "note": "An electric vehicle emits about 50g of CO2e per kilometer based on average grid electricity mix."
+  },
+  {
+    "category": "Energy",
+    "activity": "switching to 100% renewable electricity for one month",
+    "co2eKg": -120.0,
+    "note": "Transitioning to wind or solar power eliminates the emissions from fossil fuel-based electricity generation."
+  },
+  {
+    "category": "Energy",
+    "activity": "using a clothesline to dry laundry instead of a tumble dryer",
+    "co2eKg": -1.5,
+    "note": "Air-drying clothes saves about 1.5 to 3 kg of CO2e per load by avoiding electricity consumption."
+  },
+  {
+    "category": "Energy",
+    "activity": "lowering the home thermostat by 1 degree Celsius in winter",
+    "co2eKg": -0.8,
+    "note": "Lowering your heating by 1 degree Celsius can reduce energy bills and carbon emissions by up to 10% annually."
+  },
+  {
+    "category": "Energy",
+    "activity": "using LED light bulbs instead of incandescent for 5 hours daily for a year",
+    "co2eKg": -35.0,
+    "note": "LED bulbs use up to 80% less energy than traditional incandescent bulbs, preventing significant carbon emissions over their lifespan."
+  },
+  {
+    "category": "Food",
+    "activity": "eating a plant-based vegan diet for one week",
+    "co2eKg": -18.0,
+    "note": "A plant-based diet reduces carbon footprint by about 2.5 kg CO2e per day compared to a meat-heavy diet."
+  },
+  {
+    "category": "Food",
+    "activity": "replacing beef with chicken for 1kg of meat",
+    "co2eKg": -21.0,
+    "note": "Producing beef emits roughly 27 kg of CO2e per kg, whereas chicken produces around 6 kg."
+  },
+  {
+    "category": "Food",
+    "activity": "wasting 1kg of edible food",
+    "co2eKg": 2.5,
+    "note": "Food waste in landfills decays anaerobically, producing methane which has a high global warming potential."
+  },
+  {
+    "category": "Waste",
+    "activity": "recycling 10kg of paper and cardboard",
+    "co2eKg": -8.5,
+    "note": "Recycling paper saves energy and prevents methane emissions that occur when paper decomposes in landfills."
+  },
+  {
+    "category": "Waste",
+    "activity": "composting organic kitchen waste for one month",
+    "co2eKg": -4.0,
+    "note": "Composting organic matter aerobically avoids the methane production associated with landfill decomposition."
+  },
+  {
+    "category": "Waste",
+    "activity": "using reusable shopping bags for a year",
+    "co2eKg": -6.0,
+    "note": "Substituting single-use plastic bags with reusable ones prevents plastic manufacturing emissions and waste accumulation."
+  },
+  {
+    "category": "Water",
+    "activity": "reducing daily shower time from 10 minutes to 5 minutes for a week",
+    "co2eKg": -2.8,
+    "note": "Shorter showers save heated water, reducing the natural gas or electricity required by the water heater."
+  },
+  {
+    "category": "Water",
+    "activity": "harvesting and using rainwater for garden watering",
+    "co2eKg": -0.5,
+    "note": "Using rainwater reduces the energy consumed by municipal water treatment and pumping facilities."
+  },
+  {
+    "category": "Water",
+    "activity": "running the dishwasher only when fully loaded",
+    "co2eKg": -0.4,
+    "note": "A full dishwasher load optimizes both water heating energy and water consumption compared to multiple partial loads."
+  },
+  {
+    "category": "Lifestyle",
+    "activity": "buying a new smartphone instead of keeping the old one",
+    "co2eKg": 70.0,
+    "note": "Around 80% of a smartphone's carbon footprint is generated during its manufacturing phase."
+  },
+  {
+    "category": "Lifestyle",
+    "activity": "buying secondhand clothing instead of new garments",
+    "co2eKg": -15.0,
+    "note": "Extending the life of clothes by buying secondhand reduces manufacturing, transportation, and textile waste emissions."
+  },
+  {
+    "category": "Lifestyle",
+    "activity": "streaming video in standard definition instead of 4K for 10 hours",
+    "co2eKg": -0.3,
+    "note": "Lower resolution video streams require less data transmission and processing power in data centers and networks."
+  }
+]
