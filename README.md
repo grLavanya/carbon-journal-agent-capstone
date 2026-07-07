@@ -1,48 +1,49 @@
-# Folio 🌿 — A Carbon Journal
+# Carbon Journal — Agentic Capstone
 
-Built for **Prompt Wars Virtual Challenge 3: Carbon Footprint Awareness Platform** (Hack2skill x Google for Developers).
+Built on top of an existing personal project, [Folio Carbon Journal](https://github.com/grLavanya/folio-carbon-journal), extended for the Kaggle x Google AI Agents Intensive Vibe Coding Capstone.
 
-## Chosen Vertical
-Carbon Footprint Awareness Platform — reimagined as a personal journal rather than a tracker.
+## Problem
+People struggle to connect small daily choices to real environmental impact. Most carbon trackers feel like judgmental spreadsheets, which causes disengagement rather than reflection.
 
-## Approach & Logic
-Most carbon footprint apps ask users to log and quantify every action, which creates pressure to be "accurate" and invites gaming the system (logging positive actions just to raise a score). Folio sidesteps this by framing the experience as a **journal**, not a tracker.
+## Solution
+A personal carbon journal where users write freeform entries about eco-actions. An AI agent reasons about each entry's real-world impact (grounded in real emission-factor data via a custom MCP tool) and generates a personalized reflection. A live illustrated world reacts visually to cumulative impact over time.
 
-Users write freeform entries about everyday eco-actions ("Took the metro instead of an Ola today"). Each entry is analyzed for:
-- **Category** (Transport, Water, Waste, Lifestyle, etc.)
-- **Mood** (Proud, Concerned, Motivated, Hopeful, Neutral)
+## Architecture
+User submits entry
+│
+▼
+/api/analyze-entry.ts (Vercel serverless function)
+│
+├─► get_emission_factor (MCP tool, JSON-RPC 2.0) — looks up grounded CO2e data
+│
+▼
+Gemini 1.5 Flash (Impact Agent) — reasons about impact using entry + emission data + mood
+│
+├─ success ─► returns { score, impactType, worldEffect, reflection }
+└─ failure ─► usedFallback: true → frontend calls existing rule-based analyzeEntry()
 
-The combination of category + mood — not category alone — determines the entry's impact score. The same action can score differently depending on how the user felt about it, reflecting the real story behind the action rather than a flat tag.
-
-This impact score updates a persistent **World Health Score** (0–100), which visually reshapes a 2D illustrated world: sky color, tree fullness, and water clarity all shift based on health. Especially positive entries trigger a flower bloom animation.
-
-Design principles:
-- **No streak/decay mechanics** — punishing inactivity creates guilt, which drives users away rather than engaging them. The world persists honestly instead.
-- **Rule-based fallback** — if the Gemini API is unavailable, a deterministic category + mood rule set still produces a sensible impact score, so the app degrades gracefully rather than breaking.
-- **World health recalculation on delete** — deleting an entry recalculates the world health score from scratch across all remaining entries, rather than subtracting the deleted entry's score, to avoid compounding rounding errors over time.
-
-## How the Solution Works
-1. User signs in (Supabase Auth)
-2. User writes a journal entry, selecting a category and mood
-3. Entry is analyzed via the Gemini API (gemini-1.5-flash) for impact scoring, with a rule-based fallback if the API call fails
-4. The impact score adjusts the World Health Score, which is persisted in Supabase
-5. The illustrated world (built in SVG) re-renders based on the updated health score, with sky/tree/water visuals shifting accordingly
-6. Exceptional positive entries trigger a flower bloom, which is also persisted (via localStorage) so it survives page refreshes within the same browser
+## Key Concepts Demonstrated
+| Concept | Where |
+|---|---|
+| Agent | `api/analyze-entry.ts` — Gemini-powered reasoning agent |
+| MCP Server | `src/mcp/emissionServer.ts` — JSON-RPC 2.0 tool server, `get_emission_factor` |
+| Agent Skill | `.agents/skills/journal-impact-analysis/SKILL.md` |
+| Security | Supabase Row-Level Security; Gemini API key server-side only (never in client bundle) |
+| Deployability | Deployed on Vercel: https://carbon-journal-agent-capstone.vercel.app/ |
+| Antigravity | Built using Antigravity IDE throughout development |
 
 ## Tech Stack
-- **Frontend:** React, TypeScript, Vite
-- **Backend:** Supabase (auth + persistence)
-- **AI:** Gemini API (gemini-1.5-flash) with rule-based fallback
-- **Build tools:** Bolt.new (initial scaffolding) → Google Antigravity (continued development after reaching Bolt's free-tier token limit)
-- **Deployment:** Vercel
+React 18, TypeScript, Vite, Tailwind CSS, Supabase (auth + Postgres + RLS), Gemini 1.5 Flash, Vercel (hosting + serverless functions), Vitest.
 
-## Assumptions Made
-- Users are journaling about real personal actions in good faith; the journal framing is intended to make gaming the system unappealing rather than impossible to detect
-- Flower bloom persistence is scoped to the browser (via localStorage), not the user account — multi-device sync of this specific visual effect was out of scope given the project timeline
-- Impact scoring is a rule-informed heuristic, not a scientifically precise carbon calculation
+## Setup Instructions
+1. Clone this repo
+2. `npm install`
+3. Copy `.env.example` to `.env` and fill in:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+   - `GEMINI_API_KEY` (server-side, used by `/api/analyze-entry`, NOT prefixed with VITE_)
+4. `npm run dev`
+5. Deployed version auto-builds via Vercel on push to `main`
 
-## Live Demo
-[https://folio-carbon-journal.vercel.app](https://folio-carbon-journal.vercel.app)
-
-## Open in Bolt.new
-[![Open in Bolt](https://bolt.new/static/open-in-bolt.svg)](https://bolt.new/~/sb1-fy5al8vt)
+## Note on Reuse
+This project builds on an existing personal project (Folio Carbon Journal — journal UI, auth, database, deployment pipeline, tests). New for this capstone: the Impact Agent, MCP server, reliability fallback pattern, agent skill packaging, and the security hardening of the API key.
